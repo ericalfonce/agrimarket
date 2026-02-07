@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2 class="dashboard-title">Manage Users</h2>
+
+    <div class="users-table">
+        {% if users %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user[1] }}</td>
+                    <td>{{ user[2] }}</td>
+                    <td>{{ user[3] }}</td>
+                    <td>{{ user[4] }}</td>
+                    <td>
+                        <form method="post" style="display:inline-block;">
+                            <input type="hidden" name="delete_user" value="{{ user[0] }}">
+                            <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                        <form method="post" style="display:inline-block;">
+                            <input type="hidden" name="reset_user" value="{{ user[0] }}">
+                            <input type="password" name="new_password" placeholder="New Password" required>
+                            <button type="submit">Reset</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No users found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

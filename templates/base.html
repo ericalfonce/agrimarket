@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AgriMarket</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">AgriMarket</div>
+            <ul>
+                <li><a href="{{ url_for('landing') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                {% if 'user_id' not in session %}
+                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                {% else %}
+                    {% if session['role'] == 'farmer' %}
+                        <li><a href="{{ url_for('products') }}">My Products</a></li>
+                        <li><a href="{{ url_for('orders') }}">Orders</a></li>
+                    {% elif session['role'] == 'buyer' %}
+                        <li><a href="{{ url_for('products') }}">Products</a></li>
+                        <li><a href="{{ url_for('orders') }}">My Orders</a></li>
+                    {% elif session['role'] == 'admin' %}
+                        <li><a href="{{ url_for('manage_users') }}">Manage Users</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AgriMarket. All rights reserved.</p>
+    </footer>
+</body>
+</html>

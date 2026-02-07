@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Orders</h2>
+
+{% if orders %}
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price (TZS)</th>
+                <th>Quantity</th>
+                {% if session.get('role') == 'farmer' %}
+                    <th>Buyer Phone</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order[0] }}</td>
+                    <td>{{ order[1] }}</td>
+                    <td>{{ order[2] }}</td>
+                    {% if session.get('role') == 'farmer' %}
+                        <td>{{ order[3] }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No orders yet.</p>
+{% endif %}
+
+<style>
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.orders-table th,
+.orders-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.orders-table th {
+    background-color: #f4f4f4;
+}
+
+.orders-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.orders-table tr:hover {
+    background-color: #f1f1f1;
+}
+</style>
+
+{% endblock %}

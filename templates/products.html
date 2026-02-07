@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Products</h2>
+
+{% if session.get('role') == 'farmer' %}
+    <h3>Add a Product</h3>
+    <form method="post" action="{{ url_for('products') }}">
+        <input type="text" name="name" placeholder="Product Name" required>
+        <input type="number" name="price" placeholder="Price" required>
+        <input type="number" name="quantity" placeholder="Quantity" required>
+        <input type="text" name="location" placeholder="Location" required>
+        <button type="submit">Add Product</button>
+    </form>
+{% endif %}
+
+<div class="products-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <h3>{{ product[1] }}</h3>
+            <p>Price: {{ product[2] }} TZS</p>
+            <p>Quantity: {{ product[3] }}</p>
+            <p>Location: {{ product[4] }}</p>
+
+            {% if session.get('role') == 'buyer' %}
+                <form method="post" action="{{ url_for('add_to_cart', product_id=product[0]) }}">
+                    <input type="number" name="quantity" value="1" min="1">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Manage Products</h2>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Location</th>
+        <th>Actions</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product[1] }}</td>
+        <td>{{ product[2] }}</td>
+        <td>{{ product[3] }}</td>
+        <td>{{ product[4] }}</td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="product_id" value="{{ product[0] }}">
+                <button type="submit" class="btn btn-red">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('dashboard') }}" class="btn btn-green">Back to Dashboard</a>
+{% endblock %}
